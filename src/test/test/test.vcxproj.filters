@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="test">
+      <UniqueIdentifier>{76f52b4f-47c5-498a-929d-32c66917587c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\component_test.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lexer_base_test.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lexer_test.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\parser_test.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test_suite.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\token_test.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\token_tree_test.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\unique_id_test.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\unique_id_class_test.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\component_test.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lexer_base_test.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lexer_test.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\parser_test.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\test.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\test_suite.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\test_suite_type.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\test_type.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\token_test.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\token_tree_test.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\unique_id_test.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\unique_id_class_test.h">
+      <Filter>test</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

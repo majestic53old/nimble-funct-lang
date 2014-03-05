@@ -1,0 +1,79 @@
+BASE ::= <statement_list>
+
+comment ::= ;.*
+
+conditional ::= if <expression> <statement>
+	| if <expression> <statement> ( <statement> )
+	| while <expression> <statement>
+	| switch <expression> <switch_statement_list>
+
+constant ::= true | false
+	
+directive ::= break | continue | return
+
+expression ::= ( <expression> )
+	| ( <operation> ) 
+	| ( <list_operator> )
+	| ( <function_call> ) 
+	| <literal>
+
+expression_list ::= <expression> <expression_list>
+	| <expression>
+	
+function ::= call | postdec | postinc | predec | preinc | print | set | undef
+	
+function_call ::= call <identifier>
+	| call <identifier> <expression_list>
+	| postdec <identifier>
+	| postinc <identifier>
+	| predec <identifier>
+	| preinc <identifier>
+	| print <expression>
+	| set <identifier> <expression>
+	| undef <identifier>
+
+function_definition ::= def ( <identifier> ) ( <statement> )
+	| def ( <identifier> ) <identifier_list> ( <statement> )
+
+identifier ::= [a-zA-Z_][a-zA-Z0-9_]*
+
+identifier_list ::= <identifier_list_parameters> ( <identifier_list_result> )
+	| <identifier_list_parameters>
+
+identifier_list_parameters ::= <identifier> <identifier_list_parameters>
+	| <identifier>
+	
+identifier_list_result ::= <identifier> <expression>
+	| <identifier>
+	
+list_operator ::= begin <identifier> 
+	| end <identifier> 
+	| pop <identifier> 
+	| push <identifier> <expression>
+
+literal ::= <constant> | <identifier> | <string> | <value>
+	
+operation ::= <operator> <expression_list>
+	
+operator ::= + | - | * | / | % | & | | | ^ | = | ! | < | >
+	
+statement ::= <conditional> | <directive> | <expression>
+	
+statement_list ::= ( <function_call> ) <statement_list>
+	| ( <function_definition> ) <statement_list>
+	| ( <statement> ) <statement_list> 
+	| ( <function_call> )
+	| ( <function_definition> )
+	| ( <statement> )
+	| EMPTY
+	
+string ::= ".*"
+	
+switch_statement ::= <expression> <statement>
+
+switch_statement_list ::= <switch_statement> <switch_statement_list> else <statement>
+	| <switch_statement> <switch_statement_list> 
+	| <switch_statement> else <statement>
+	| <switch_statement>
+
+value ::= [~]?[0-9]+[\.[0-9]+]?

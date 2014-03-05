@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="common">
+      <UniqueIdentifier>{5368e422-68e9-421e-844f-9107d04452c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="component">
+      <UniqueIdentifier>{73dc41e5-3bfc-4152-94d1-d1013697b9a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="language">
+      <UniqueIdentifier>{229c6e1d-136d-4d45-a3f0-d240dd7361e6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\exception.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\trace.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\type.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\version.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\unique_id.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\unique_id_type.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\unique_id_class.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\unique_id_class_type.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\token.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\token_type.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lexer_base.h">
+      <Filter>language</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lexer_base_type.h">
+      <Filter>language</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lexer.h">
+      <Filter>language</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lexer_type.h">
+      <Filter>language</Filter>
+    </ClInclude>
+    <ClInclude Include="..\parser.h">
+      <Filter>language</Filter>
+    </ClInclude>
+    <ClInclude Include="..\parser_type.h">
+      <Filter>language</Filter>
+    </ClInclude>
+    <ClInclude Include="..\token_tree.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\token_tree_type.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\component.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\component_type.h">
+      <Filter>component</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\unique_id.cpp">
+      <Filter>component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\unique_id_class.cpp">
+      <Filter>component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\token.cpp">
+      <Filter>component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lexer_base.cpp">
+      <Filter>language</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lexer.cpp">
+      <Filter>language</Filter>
+    </ClCompile>
+    <ClCompile Include="..\parser.cpp">
+      <Filter>language</Filter>
+    </ClCompile>
+    <ClCompile Include="..\token_tree.cpp">
+      <Filter>component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\component.cpp">
+      <Filter>component</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

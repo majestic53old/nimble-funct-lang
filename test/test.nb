@@ -1,0 +1,53 @@
+;;;;;;;;;;;;;;;; MATH ;;;;;;;;;;;;;;;;
+(
+	def (abs) num (result num)
+	(
+		if (< result 0) (set result (* result ~1))
+	)
+)
+(
+	def (sqrt) num (result)
+	(
+		(set result (call sqrt_helper num (call abs (* num 0.5)) 0.00001))
+	)
+)
+(
+	def (sqrt_helper) orig next tolerance (result orig)
+	(
+		if (< next tolerance) return (
+			while (> (call abs (- (* (+ (/ orig result) result) 0.5) result)) tolerance) (
+				(set result next)
+			)
+		)
+	)
+)
+;;;;;;;;;;;;;;;; PRIME ;;;;;;;;;;;;;;;;
+(
+	def (is_prime) num (result false)
+	(
+		if (< num 2) return (
+			(set result (call is_prime_helper num (call sqrt num)))
+		)
+	)
+)
+(
+	def (is_prime_helper) num max (result true)
+	(
+		while (> max 2) if (= (% num (postdec max)) 0) (set result false) (
+			if (= result false) break
+		)
+	)
+)
+;;;;;;;;;;;;;;;; MAIN ;;;;;;;;;;;;;;;;
+(
+	print (call is_prime 0)
+)
+(
+	print (call is_prime 2)
+)
+(
+	print (call is_prime ~1)
+)
+(
+	print (call is_prime 5)
+)

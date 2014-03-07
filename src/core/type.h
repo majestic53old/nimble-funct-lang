@@ -45,6 +45,7 @@ namespace NIMBLE_NS {
 	#define INITIAL_REFERENCE_COUNT (1)
 	#define INVALID (-1)
 	#define MAX_MESSAGE_LENGTH (0x400)
+	#define SENTINEL_COUNT (2)
 	#define UNKNOWN "UNKNOWN"
 	#define _SERIALIZE_CALL(_TYPE_, _MUTEX_) std::lock_guard<_TYPE_> __LOCK(_MUTEX_)
 	#define SERIALIZE_CALL(_MUTEX_) _SERIALIZE_CALL(std::mutex, _MUTEX_)

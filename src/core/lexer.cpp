@@ -653,7 +653,7 @@ namespace NIMBLE_NS {
 			TRACE_ENTRY();
 			SERIALIZE_CALL_RECURSIVE(m_lexer_lock);
 
-			result = m_token_list.size();
+			result = m_token_list.size() - SENTINEL_COUNT;
 
 			TRACE_EXIT_MESSAGE("%lu", result);
 			return result;

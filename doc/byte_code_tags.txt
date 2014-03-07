@@ -1,0 +1,101 @@
+TAG_TYPE_CONDITIONAL
+TAG_TYPE_CONSTANT
+TAG_TYPE_DIRECTIVE
+TAG_TYPE_EXPRESSION
+TAG_TYPE_FUNCTION_DEFINITION
+TAG_TYPE_LIST
+TAG_TYPE_SYMBOL
+
+TAG_SUBTYPE_EXPRESSION
+TAG_SUBTYPE_FUNCTION_CALL
+TAG_SUBTYPE_IDENTIFIER
+TAG_SUBTYPE_IF
+TAG_SUBTYPE_LIST_OPERATION
+TAG_SUBTYPE_OPERATION
+TAG_SUBTYPE_STATEMENT
+TAG_SUBTYPE_STRING
+TAG_SUBTYPE_SWITCH
+TAG_SUBTYPE_SWITCH_STATEMENT
+TAG_SUBTYPE_SWITCH_STATEMENT_ELSE
+TAG_SUBTYPE_VALUE
+TAG_SUBTYPE_WHILE
+
+typedef struct {
+	uint8_t type : 4;
+	uint8_t subtype : 4;
+} tag_header, *tag_header_ptr;
+
+typedef struct {
+	tag_header header;
+	tag_list expression_list;
+	tag_list statement_list;
+} tag_conditional, *tag_conditional_ptr;
+
+typedef struct {
+	tag_header header;
+	constant_type constant;
+} tag_constant, *tag_constant_ptr;
+
+typedef struct {
+	tag_header header;
+	directive_type directive;
+} tag_directive, *tag_directive_ptr;
+
+typedef struct {
+	tag_header header;
+	function_type function;
+	tag_symbol identifier;
+	tag_list expression_list;
+} tag_function_call, *tag_function_call_ptr;
+
+typedef struct {
+	tag_header header;
+	tag_symbol identifier;
+	tag_list identifier_list;
+	tag_list result_list;
+	tag_list result_expression_list;
+	tag_list statement_list;
+} tag_function_definition, *tag_function_definition;
+
+typedef struct {
+	tag_header header;
+	uint16_t count;
+} tag_list, *tag_list_ptr;
+
+typedef struct {
+	tag_header header;
+	list_operation_type operator;
+	tag_symbol identifier;
+	tag_list expression_list;
+} tag_list_operation, *tag_list_operation_ptr;
+
+typedef struct {
+	tag_header header;
+	operator_type operator;
+	tag_list expression_list;
+} tag_operation, *tag_operation_ptr;
+
+typedef struct {
+	tag_header header;
+	sid symbol_id;
+} tag_symbol, *tag_symbol_ptr;
+
+----------------------------
+
+Symbol table
+
+<SID> <SYMBOL>
+
+SYMBOL_TYPE_FUNCTION
+SYMBOL_TYPE_STRING
+SYMBOL_TYPE_VALUE
+
+typedef struct {
+	uint16_t entries;
+} symbol_table_header, *symbol_table_header_ptr;
+
+typedef struct {
+	uint8_t type : 4;
+	uint16_t length;
+	uint8_t value[0];
+} symbol_header, *symbol_header_ptr;

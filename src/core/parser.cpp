@@ -1196,7 +1196,7 @@ namespace NIMBLE_NS {
 			TRACE_ENTRY();
 			SERIALIZE_CALL_RECURSIVE(m_parser_lock);
 
-			result = m_statement_list.size();
+			result = m_statement_list.size() - SENTINEL_COUNT;
 
 			TRACE_EXIT_MESSAGE("%lu", result);
 			return result;

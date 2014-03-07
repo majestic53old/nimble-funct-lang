@@ -27,8 +27,8 @@ namespace NIMBLE_NS {
 
 	namespace TEST_NS {
 
-		#define LEXER_BASE_TEST_FILE_PATH "..\\..\\..\\test\\lexer_base_file_test.nb"
-		#define LEXER_BASE_TEST_INPUT ";test\n(testinput);345\n123,\t..\n"
+		#define LEXER_BASE_TEST_FILE_PATH "..\\..\\..\\test\\lexer_file_test.nb"
+		#define LEXER_BASE_TEST_INPUT ";test\n(testinput);345\n123(\t(()\n"
 		#define LEXER_BASE_TEST_INPUT_LENGTH std::string(LEXER_BASE_TEST_INPUT).size()
 
 		static lexer_base_test_clear lexer_base_test_0;
@@ -102,7 +102,7 @@ namespace NIMBLE_NS {
 #ifndef _DEBUG
 				UNREFERENCED_PARAMETER(exc);
 #endif // _DEBUG
-				TRACE_ERROR("%s: %s", m_name, exc.what());
+				TRACE_ERROR("%s: %s", m_name.c_str(), exc.what());
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
@@ -185,7 +185,7 @@ namespace NIMBLE_NS {
 #ifndef _DEBUG
 				UNREFERENCED_PARAMETER(exc);
 #endif // _DEBUG
-				TRACE_ERROR("%s: %s", m_name, exc.what());
+				TRACE_ERROR("%s: %s", m_name.c_str(), exc.what());
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
@@ -276,7 +276,7 @@ namespace NIMBLE_NS {
 #ifndef _DEBUG
 				UNREFERENCED_PARAMETER(exc);
 #endif // _DEBUG
-				TRACE_ERROR("%s: %s", m_name, exc.what());
+				TRACE_ERROR("%s: %s", m_name.c_str(), exc.what());
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
@@ -360,7 +360,7 @@ namespace NIMBLE_NS {
 #ifndef _DEBUG
 				UNREFERENCED_PARAMETER(exc);
 #endif // _DEBUG
-				TRACE_ERROR("%s: %s", m_name, exc.what());
+				TRACE_ERROR("%s: %s", m_name.c_str(), exc.what());
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
@@ -449,7 +449,7 @@ namespace NIMBLE_NS {
 #ifndef _DEBUG
 				UNREFERENCED_PARAMETER(exc);
 #endif // _DEBUG
-				TRACE_ERROR("%s: %s", m_name, exc.what());
+				TRACE_ERROR("%s: %s", m_name.c_str(), exc.what());
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
@@ -543,7 +543,7 @@ namespace NIMBLE_NS {
 #ifndef _DEBUG
 				UNREFERENCED_PARAMETER(exc);
 #endif // _DEBUG
-				TRACE_ERROR("%s: %s", m_name, exc.what());
+				TRACE_ERROR("%s: %s", m_name.c_str(), exc.what());
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
@@ -629,7 +629,7 @@ namespace NIMBLE_NS {
 #ifndef _DEBUG
 				UNREFERENCED_PARAMETER(exc);
 #endif // _DEBUG
-				TRACE_ERROR("%s: %s", m_name, exc.what());
+				TRACE_ERROR("%s: %s", m_name.c_str(), exc.what());
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
@@ -700,7 +700,7 @@ namespace NIMBLE_NS {
 #ifndef _DEBUG
 				UNREFERENCED_PARAMETER(exc);
 #endif // _DEBUG
-				TRACE_ERROR("%s: %s", m_name, exc.what());
+				TRACE_ERROR("%s: %s", m_name.c_str(), exc.what());
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
@@ -777,7 +777,7 @@ namespace NIMBLE_NS {
 #ifndef _DEBUG
 				UNREFERENCED_PARAMETER(exc);
 #endif // _DEBUG
-				TRACE_ERROR("%s: %s", m_name, exc.what());
+				TRACE_ERROR("%s: %s", m_name.c_str(), exc.what());
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
@@ -861,7 +861,7 @@ namespace NIMBLE_NS {
 #ifndef _DEBUG
 				UNREFERENCED_PARAMETER(exc);
 #endif // _DEBUG
-				TRACE_ERROR("%s: %s", m_name, exc.what());
+				TRACE_ERROR("%s: %s", m_name.c_str(), exc.what());
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
@@ -939,7 +939,7 @@ namespace NIMBLE_NS {
 #ifndef _DEBUG
 				UNREFERENCED_PARAMETER(exc);
 #endif // _DEBUG
-				TRACE_ERROR("%s: %s", m_name, exc.what());
+				TRACE_ERROR("%s: %s", m_name.c_str(), exc.what());
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
@@ -1007,7 +1007,7 @@ namespace NIMBLE_NS {
 #ifndef _DEBUG
 				UNREFERENCED_PARAMETER(exc);
 #endif // _DEBUG
-				TRACE_ERROR("%s: %s", m_name, exc.what());
+				TRACE_ERROR("%s: %s", m_name.c_str(), exc.what());
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
@@ -1102,7 +1102,7 @@ namespace NIMBLE_NS {
 #ifndef _DEBUG
 				UNREFERENCED_PARAMETER(exc);
 #endif // _DEBUG
-				TRACE_ERROR("%s: %s", m_name, exc.what());
+				TRACE_ERROR("%s: %s", m_name.c_str(), exc.what());
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
@@ -1190,7 +1190,7 @@ namespace NIMBLE_NS {
 #ifndef _DEBUG
 				UNREFERENCED_PARAMETER(exc);
 #endif // _DEBUG
-				TRACE_ERROR("%s: %s", m_name, exc.what());
+				TRACE_ERROR("%s: %s", m_name.c_str(), exc.what());
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
@@ -1275,7 +1275,7 @@ namespace NIMBLE_NS {
 #ifndef _DEBUG
 				UNREFERENCED_PARAMETER(exc);
 #endif // _DEBUG
-				TRACE_ERROR("%s: %s", m_name, exc.what());
+				TRACE_ERROR("%s: %s", m_name.c_str(), exc.what());
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
@@ -1338,7 +1338,7 @@ namespace NIMBLE_NS {
 #ifndef _DEBUG
 				UNREFERENCED_PARAMETER(exc);
 #endif // _DEBUG
-				TRACE_ERROR("%s: %s", m_name, exc.what());
+				TRACE_ERROR("%s: %s", m_name.c_str(), exc.what());
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 

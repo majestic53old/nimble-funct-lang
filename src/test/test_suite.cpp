@@ -257,10 +257,12 @@ namespace NIMBLE_NS {
 
 		std::string 
 		_test_suite::to_string(
+			__in bool show_only_failures,
 			__in bool verbose
 			)
 		{
 			test_result result;
+			std::string test_result;
 			std::stringstream stream;
 			std::map<std::string, test &>::iterator test_iter;
 			size_t failed = 0, inconclusive = 0, succeeded = 0;
@@ -299,7 +301,13 @@ namespace NIMBLE_NS {
 			}
 
 			for(test_iter = m_test_map.begin(); test_iter != m_test_map.end(); ++test_iter) {
-				stream << std::endl << "--- " << test_iter->second.to_string(verbose);
+				test_result = test_iter->second.to_string(show_only_failures, verbose);
+
+				if(test_result.empty()) {
+					continue;
+				}
+
+				stream << std::endl << "--- " << test_result;
 			}
 
 			TRACE_EXIT();

@@ -159,6 +159,7 @@ namespace NIMBLE_NS {
 
 		std::string 
 		_test::to_string(
+			__in bool show_only_failures,
 			__in bool verbose
 			)
 		{
@@ -168,13 +169,15 @@ namespace NIMBLE_NS {
 			SERIALIZE_CALL_RECURSIVE(m_test_lock);
 			UNREFERENCED_PARAMETER(verbose);
 
-			stream << "[" << TEST_RESULT_STRING(m_result);
+			if(!show_only_failures || ((m_result == TEST_RESULT_FAILURE) || (m_result == TEST_RESULT_INCONCLUSIVE))) {
+				stream << "[" << TEST_RESULT_STRING(m_result);
 
-			if(!m_run_count) {
-				stream << " (INVALID)";
+				if(!m_run_count) {
+					stream << " (INVALID)";
+				}
+
+				stream << "] " << m_name;
 			}
-
-			stream << "] " << m_name;
 
 			TRACE_EXIT();
 			return stream.str();

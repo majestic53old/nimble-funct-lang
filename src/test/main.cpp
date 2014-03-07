@@ -19,6 +19,7 @@
 
 #include "component.h"
 #include "component_test.h"
+#include "lexer_test.h"
 #include "lexer_base_test.h"
 #include "parser.h"
 #include "token_test.h"
@@ -49,6 +50,7 @@ static const std::string LAYER_TYPE_STR[] = {
  */
 #define UNIT_TEST_MODE
 #ifdef UNIT_TEST_MODE
+#define SHOW_ONLY_FAILURES_MODE true
 #define VERBOSE_MODE true
 #else
 #define RUN_LAYER ((layer_type) LAYER_PARSER)
@@ -251,6 +253,7 @@ run_layer(
 
 void 
 run_tests(
+	__in bool show_only_failures = false,
 	__in bool verbose = false
 	)
 {
@@ -258,13 +261,14 @@ run_tests(
 	
 	std::cout << "[RUNNING TESTS]" << std::endl << "---" << std::endl;
 	component_register_tests(suite);
+	lexer_register_tests(suite);
 	lexer_base_register_tests(suite);
 	token_register_tests(suite);
 	token_tree_register_tests(suite);
 	unique_id_register_tests(suite);
 	unique_id_class_register_tests(suite);
 	suite.run_all_tests();
-	std::cout << suite.to_string(verbose) << std::endl;
+	std::cout << suite.to_string(show_only_failures, verbose) << std::endl;
 }
 #endif // UNIT_TEST_MODE
 
@@ -277,7 +281,7 @@ main(void)
 
 	try {
 #ifdef UNIT_TEST_MODE
-		run_tests(VERBOSE_MODE);
+		run_tests(SHOW_ONLY_FAILURES_MODE, VERBOSE_MODE);
 #else
 		COMPONENT_NS::initialize();
 

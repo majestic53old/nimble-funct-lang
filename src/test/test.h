@@ -72,6 +72,7 @@ namespace NIMBLE_NS {
 					);
 
 				virtual std::string to_string(
+					__in bool show_only_failures = false,
 					__in bool verbose = false
 					);
 

@@ -895,6 +895,13 @@ namespace NIMBLE_NS {
 			result = add_control_token(node, parent_id, TOKEN_TYPE_STATEMENT_LIST);
 			current_tok = lexer::get_token();
 
+			if(!IS_TOKEN_SUBTYPE(current_tok, TOKEN_TYPE_SYMBOL, SYMBOL_OPEN_PARENTHESIS)) {
+				TRACE_ERROR("%s: %s", PARSER_EXCEPTION_STRING(PARSER_EXCEPTION_EXPECTING_STATEMENT_LIST).c_str(),
+					COMPONENT_NS::TOKEN_NS::token_as_string(current_tok).c_str());
+				THROW_PARSER_EXCEPTION_MESSAGE(PARSER_EXCEPTION_EXPECTING_STATEMENT_LIST, "%s", 
+					COMPONENT_NS::TOKEN_NS::token_as_string(current_tok).c_str());
+			}
+
 			while(IS_TOKEN_SUBTYPE(current_tok, TOKEN_TYPE_SYMBOL, SYMBOL_OPEN_PARENTHESIS)) {
 				INITIALIZE_TOKEN_NODE(child_node);
 				current_tok = token_advance(true);
@@ -1098,7 +1105,7 @@ namespace NIMBLE_NS {
 				token_advance();
 			}
 
-			if(lexer::has_next_token() && (m_statement_position <= (m_statement_list.size() - 2))) {
+			if(lexer::has_next_token() && (m_statement_position <= (m_statement_list.size() - SENTINEL_COUNT))) {
 				m_statement_list.insert(m_statement_list.begin() + m_statement_position + 1, 
 					enumerate_statement_list(root_node));
 			}

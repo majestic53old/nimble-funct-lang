@@ -1,3 +1,5 @@
+; Nimble test file
+; *** DO NOT MODIFY ***
 ;;;;;;;;;;;;;;;; MATH ;;;;;;;;;;;;;;;;
 (
 	def (abs) num (result num)
@@ -14,8 +16,10 @@
 (
 	def (sqrt_helper) orig next tolerance (result orig)
 	(
-		if (< next tolerance) return (
-			while (> (call abs (- (* (+ (/ orig result) result) 0.5) result)) tolerance) (
+		if (< next tolerance) return 
+		(
+			while (> (call abs (- (* (+ (/ orig result) result) 0.5) result)) tolerance) 
+			(
 				(set result next)
 			)
 		)
@@ -25,7 +29,8 @@
 (
 	def (is_prime) num (result false)
 	(
-		if (< num 2) return (
+		if (< num 2) return 
+		(
 			(set result (call is_prime_helper num (call sqrt num)))
 		)
 	)
@@ -33,7 +38,8 @@
 (
 	def (is_prime_helper) num max (result true)
 	(
-		while (> max 2) if (= (% num (postdec max)) 0) (set result false) (
+		while (> max 2) if (= (% num (postdec max)) 0) (set result false) 
+		(
 			if (= result false) break
 		)
 	)

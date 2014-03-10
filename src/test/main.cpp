@@ -22,6 +22,7 @@
 #include "lexer_test.h"
 #include "lexer_base_test.h"
 #include "parser.h"
+#include "parser_test.h"
 #include "token_test.h"
 #include "token_tree_test.h"
 #include "unique_id_test.h"
@@ -54,7 +55,7 @@ static const std::string LAYER_TYPE_STR[] = {
 #define VERBOSE_MODE true
 #else
 #define RUN_LAYER ((layer_type) LAYER_PARSER)
-#define SOURCE_INPUT "..\\..\\..\\test\\test.nb"
+#define SOURCE_INPUT "..\\..\\..\\test\\file_test2.nb"
 #define SOURCE_IS_FILE true
 #define VERBOSE_MODE true
 #endif // UNIT_TEST_MODE
@@ -263,6 +264,7 @@ run_tests(
 	component_register_tests(suite);
 	lexer_register_tests(suite);
 	lexer_base_register_tests(suite);
+	parser_register_tests(suite);
 	token_register_tests(suite);
 	token_tree_register_tests(suite);
 	unique_id_register_tests(suite);

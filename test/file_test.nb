@@ -1,0 +1,5 @@
+; Nimble test file
+; *** DO NOT MODIFY ***
+;test
+(testinput);345
+123(	(()

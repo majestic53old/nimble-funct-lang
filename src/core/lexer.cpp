@@ -591,7 +591,7 @@ namespace NIMBLE_NS {
 
 			skip_whitespace();
 
-			if(lexer_base::has_next_character() && (m_token_position <= (m_token_list.size() - 2))) {
+			if(lexer_base::has_next_character() && (m_token_position <= (m_token_list.size() - SENTINEL_COUNT))) {
 				enumerate_token(tok);
 				m_token_list.insert(m_token_list.begin() + m_token_position + 1, COMPONENT_NS::TOKEN_NS::register_token(tok));
 			}

@@ -30,7 +30,7 @@ namespace NIMBLE_NS {
 
 	namespace TEST_NS {
 
-		#define LEXER_TEST_FILE_PATH "..\\..\\..\\test\\lexer_file_test.nb"
+		#define LEXER_TEST_FILE_PATH "..\\..\\..\\test\\file_test.nb"
 		#define LEXER_TEST_INPUT ";test\n(testinput);345\n123(\t(()\n"
 		#define LEXER_TEST_INPUT_LENGTH std::string(LEXER_TEST_INPUT).size()
 

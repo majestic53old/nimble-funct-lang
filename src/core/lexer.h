@@ -106,11 +106,13 @@ namespace NIMBLE_NS {
 					);
 
 				void enumerate_alpha_token(
-					__inout token &tok
+					__inout token &tok,
+					__in bool negative = false
 					);
 
 				void enumerate_digit_token(
-					__inout token &tok
+					__inout token &tok,
+					__in bool negative = false
 					);
 
 				void enumerate_string_token(
@@ -122,6 +124,10 @@ namespace NIMBLE_NS {
 					);
 
 				void enumerate_token(
+					__inout token &tok
+					);
+
+				void enumerate_unary_token(
 					__inout token &tok
 					);
 

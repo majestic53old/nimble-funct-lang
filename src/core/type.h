@@ -296,6 +296,26 @@ namespace NIMBLE_NS {
 		(SYMBOL_TYPE_SET.find(_STRING_) != SYMBOL_TYPE_SET.end())
 
 	typedef enum {
+		UNARY_TYPE_NEGATION = 0,
+	} unary_type;
+
+	static const char UNARY_TYPE_CH[] = {
+		'~',
+		};
+
+	#define MAX_UNARY_TYPE UNARY_TYPE_NEGATION
+	#define UNARY_TYPE_CHARACTER(_TYPE_)\
+		(((size_t) _TYPE_) > (size_t) MAX_UNARY_TYPE ? UNKNOWN : UNARY_TYPE_STR[_TYPE_])
+
+	static const std::set<char> UNARY_TYPE_SET = {
+		UNARY_TYPE_CH,
+		UNARY_TYPE_CH + (MAX_UNARY_TYPE + 1)
+		};
+
+	#define IS_UNARY_TYPE(_CHAR_)\
+		(UNARY_TYPE_SET.find(_CHAR_) != UNARY_TYPE_SET.end())
+
+	typedef enum {
 		VALUE_TYPE_NEGATIVE = 0,
 		VALUE_TYPE_POSITIVE,
 	} value_type;

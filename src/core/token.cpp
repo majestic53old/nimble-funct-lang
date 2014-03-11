@@ -375,7 +375,7 @@ namespace NIMBLE_NS {
 				stream << "[" << TOKEN_TYPE_STRING(tok.type);
 
 				if(tok.subtype != INVALID_SUBTYPE) {
-					stream << ", \'" << determine_subtype_string(tok.type, tok.subtype) 
+					stream << ", \'" << determine_subtype_string((tok.type == TOKEN_TYPE_IDENTIFIER) ? TOKEN_TYPE_VALUE_LITERAL : tok.type, tok.subtype) 
 						<< "\'";
 
 					if(verbose) {

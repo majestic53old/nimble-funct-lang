@@ -194,7 +194,8 @@ namespace NIMBLE_NS {
 
 		void 
 		_lexer::enumerate_alpha_token(
-			__inout token &tok
+			__inout token &tok,
+			__in bool negative
 			)
 		{
 			char current_char;
@@ -204,6 +205,7 @@ namespace NIMBLE_NS {
 
 			current_char = lexer_base::get_character();
 			tok.type = TOKEN_TYPE_IDENTIFIER;
+			tok.subtype = VALUE_TYPE_POSITIVE;
 
 			if((lexer_base::get_character_type() != CHARACTER_TYPE_ALPHA)
 					&& (current_char != CHARACTER_UNDERSCORE)) {
@@ -245,6 +247,17 @@ namespace NIMBLE_NS {
 			if(tok.type != TOKEN_TYPE_IDENTIFIER) {
 				tok.subtype = determine_subtype(tok.text, tok.type);
 				tok.text.clear();
+			} else if(negative) {
+				tok.subtype = VALUE_TYPE_NEGATIVE;
+			}
+
+			if(negative && (tok.type == TOKEN_TYPE_CONSTANT)) {
+
+				if(tok.subtype == CONSTANT_TRUE) {
+					tok.subtype = CONSTANT_FALSE;
+				} else {
+					tok.subtype = CONSTANT_TRUE;
+				}
 			}
 
 			TRACE_EXIT();
@@ -252,7 +265,8 @@ namespace NIMBLE_NS {
 
 		void 
 		_lexer::enumerate_digit_token(
-			__inout token &tok
+			__inout token &tok,
+			__in bool negative
 			)
 		{
 			char current_char;
@@ -264,28 +278,11 @@ namespace NIMBLE_NS {
 			current_char = lexer_base::get_character();
 			exception_string = lexer_base::to_string();
 			tok.type = TOKEN_TYPE_VALUE_LITERAL;
-			tok.subtype = VALUE_TYPE_POSITIVE;
-
-			if((lexer_base::get_character_type() != CHARACTER_TYPE_DIGIT)
-					&& (current_char != CHARACTER_NEGATION)) {
-				TRACE_ERROR("%s: %s", LEXER_EXCEPTION_STRING(LEXER_EXCEPTION_EXPECTING_VALUE).c_str(), exception_string.c_str());
-				THROW_LEXER_EXCEPTION_MESSAGE(LEXER_EXCEPTION_EXPECTING_VALUE, "%s", exception_string.c_str());
-			}
-
-			if(current_char == CHARACTER_NEGATION) {
-				tok.subtype = VALUE_TYPE_NEGATIVE;
-
-				if(!lexer_base::has_next_character()) {
-					TRACE_ERROR("%s: %s", LEXER_EXCEPTION_STRING(LEXER_EXCEPTION_UNTERMINATED_VALUE).c_str(), exception_string.c_str());
-					THROW_LEXER_EXCEPTION_MESSAGE(LEXER_EXCEPTION_UNTERMINATED_VALUE, "%s", exception_string.c_str());
-				}
-
-				current_char = character_advance();
-			}
+			tok.subtype = (token_subtype) (negative ? VALUE_TYPE_NEGATIVE : VALUE_TYPE_POSITIVE);
 
 			if(lexer_base::get_character_type() != CHARACTER_TYPE_DIGIT) {
-				TRACE_ERROR("%s: %s", LEXER_EXCEPTION_STRING(LEXER_EXCEPTION_UNTERMINATED_VALUE).c_str(), exception_string.c_str());
-				THROW_LEXER_EXCEPTION_MESSAGE(LEXER_EXCEPTION_UNTERMINATED_VALUE, "%s", exception_string.c_str());
+				TRACE_ERROR("%s: %s", LEXER_EXCEPTION_STRING(LEXER_EXCEPTION_EXPECTING_VALUE).c_str(), exception_string.c_str());
+				THROW_LEXER_EXCEPTION_MESSAGE(LEXER_EXCEPTION_EXPECTING_VALUE, "%s", exception_string.c_str());
 			}
 
 			while(lexer_base::get_character_type() == CHARACTER_TYPE_DIGIT) {
@@ -391,7 +388,7 @@ namespace NIMBLE_NS {
 
 			switch(current_char) {
 				case CHARACTER_NEGATION:
-					enumerate_digit_token(tok);
+					enumerate_unary_token(tok);
 					break;
 				case CHARACTER_STRING_DELIMITER:
 					enumerate_string_token(tok);
@@ -449,6 +446,55 @@ namespace NIMBLE_NS {
 				default:
 					TRACE_ERROR("%s", LEXER_EXCEPTION_STRING(LEXER_EXCEPTION_EXPECTING_TOKEN).c_str());
 					THROW_LEXER_EXCEPTION(LEXER_EXCEPTION_EXPECTING_TOKEN);
+			}
+
+			TRACE_EXIT();
+		}
+
+		void 
+		_lexer::enumerate_unary_token(
+			__inout token &tok
+			)
+		{
+			char current_char;
+			value_type val_type = VALUE_TYPE_POSITIVE;
+
+			TRACE_ENTRY();
+			SERIALIZE_CALL_RECURSIVE(m_lexer_lock);
+
+			current_char = lexer_base::get_character();
+			
+			if(!IS_UNARY_TYPE(current_char)) {
+				TRACE_ERROR("%s: %s", LEXER_EXCEPTION_STRING(LEXER_EXCEPTION_EXPECTING_UNARY).c_str(), lexer_base::to_string().c_str());
+				THROW_LEXER_EXCEPTION_MESSAGE(LEXER_EXCEPTION_EXPECTING_UNARY, "%s", lexer_base::to_string().c_str());
+			}
+
+			switch(current_char) {
+				case CHARACTER_NEGATION:
+					val_type = VALUE_TYPE_NEGATIVE;
+
+					if(!lexer_base::has_next_character()) {
+						TRACE_ERROR("%s: %s", LEXER_EXCEPTION_STRING(LEXER_EXCEPTION_UNTERMINATED_UNARY).c_str(), lexer_base::to_string().c_str());
+						THROW_LEXER_EXCEPTION_MESSAGE(LEXER_EXCEPTION_UNTERMINATED_UNARY, "%s", lexer_base::to_string().c_str());
+					}
+
+					current_char = character_advance();
+
+					switch(lexer_base::get_character_type()) {
+						case CHARACTER_TYPE_ALPHA:
+							enumerate_alpha_token(tok, true);
+							break;
+						case CHARACTER_TYPE_DIGIT:
+							enumerate_digit_token(tok, true);
+							break;
+						default:
+							TRACE_ERROR("%s: %s", LEXER_EXCEPTION_STRING(LEXER_EXCEPTION_EXPECTING_LITERAL).c_str(), lexer_base::to_string().c_str());
+							THROW_LEXER_EXCEPTION_MESSAGE(LEXER_EXCEPTION_EXPECTING_LITERAL, "%s", lexer_base::to_string().c_str());
+					}
+					break;
+				default:
+					TRACE_ERROR("%s: %s", LEXER_EXCEPTION_STRING(LEXER_EXCEPTION_EXPECTING_UNARY).c_str(), lexer_base::to_string().c_str());
+					THROW_LEXER_EXCEPTION_MESSAGE(LEXER_EXCEPTION_EXPECTING_UNARY, "%s", lexer_base::to_string().c_str());
 			}
 
 			TRACE_EXIT();

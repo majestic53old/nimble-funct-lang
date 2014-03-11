@@ -42,27 +42,110 @@ namespace NIMBLE_NS {
 			0)\n)\n(\n\tprint (call is_prime 2)\n)\n(\n\tprint (call is_prime ~1)\n)\n(\n\tprint (call is_prime 5)\n)"
 		#define PARSER_TEST_INPUT_LENGTH std::string(PARSER_TEST_INPUT).size()
 
+		typedef enum {
+			CONDITIONAL_TEST_IF = 0,
+			CONDITIONAL_TEST_IF_ELSE,
+			CONDITIONAL_TEST_SWITCH,
+			CONDITIONAL_TEST_SWITCH_ELSE,
+			CONDITIONAL_WHILE,
+		} conditional_test_type;
+
+		static const std::string CONDITIONAL_TEST_STR[] = {
+			"(if (< a 5) (set b 5))",
+			"(if (< a 5) (set b 5) ((set b a)))",
+			"(switch a 0 (set b a) 5 (set b a))",
+			"(switch a 0 (set b a) 5 (set b a) else (set b 5))",
+			"(while (< a 5) (preinc a))",
+			};
+
+		#define MAX_CONDITIONAL_TEST CONDITIONAL_WHILE
+		#define CONDITIONAL_TEST_STRING(_TYPE_)\
+			(((size_t) _TYPE_) > (size_t) MAX_CONDITIONAL_TEST ? UNKNOWN : CONDITIONAL_TEST_STR[_TYPE_])
+
+		typedef enum {
+			DIRECTIVE_TEST_BREAK = 0,
+			DIRECTIVE_TEST_CONTINUE,
+			DIRECTIVE_TEST_RETURN,
+		} directive_test_type;
+
+		static const std::string DIRECTIVE_TEST_STR[] = {
+			"(break)", "(continue)", "(return)",
+			};
+
+		#define MAX_DIRECTIVE_TEST DIRECTIVE_TEST_RETURN
+		#define DIRECTIVE_TEST_STRING(_TYPE_)\
+			(((size_t) _TYPE_) > (size_t) MAX_DIRECTIVE_TEST ? UNKNOWN : DIRECTIVE_TEST_STR[_TYPE_])
+
+		typedef enum {
+			EXPRESSION_TEST_FUNCTION_CALL = 0,
+			EXPRESSION_TEST_FUNCTION_CALL_WITH_PARAMETERS,
+			EXPRESSION_TEST_FUNCTION_POSTDEC,
+			EXPRESSION_TEST_FUNCTION_POSTINC,
+			EXPRESSION_TEST_FUNCTION_PREDEC,
+			EXPRESSION_TEST_FUNCTION_PREINC,
+			EXPRESSION_TEST_FUNCTION_PRINT,
+			EXPRESSION_TEST_FUNCTION_SET,
+			EXPRESSION_TEST_FUNCTION_UNDEF,
+			EXPRESSION_TEST_LIST_OPERATOR_BEGIN,
+			EXPRESSION_TEST_LIST_OPERATOR_END,
+			EXPRESSION_TEST_LIST_OPERATOR_POP,
+			EXPRESSION_TEST_LIST_OPERATOR_PUSH,
+			EXPRESSION_TEST_LITERAL_FALSE,
+			EXPRESSION_TEST_LITERAL_FALSE_NEGATIVE,
+			EXPRESSION_TEST_LITERAL_FLOAT,
+			EXPRESSION_TEST_LITERAL_FLOAT_NEGATIVE,
+			EXPRESSION_TEST_LITERAL_IDENTIFIER,
+			EXPRESSION_TEST_LITERAL_IDENTIFIER_NEGATIVE,
+			EXPRESSION_TEST_LITERAL_INTEGER,
+			EXPRESSION_TEST_LITERAL_INTEGER_NEGATIVE,
+			EXPRESSION_TEST_LITERAL_STRING,
+			EXPRESSION_TEST_LITERAL_TRUE,
+			EXPRESSION_TEST_LITERAL_TRUE_NEGATIVE,
+			EXPRESSION_TEST_NESTED,
+			EXPRESSION_TEST_OPERATOR_AND,
+			EXPRESSION_TEST_OPERATOR_DIVIDE,
+			EXPRESSION_TEST_OPERATOR_EQUALS,
+			EXPRESSION_TEST_OPERATOR_GREATER_THEN,
+			EXPRESSION_TEST_OPERATOR_LESS_THEN,
+			EXPRESSION_TEST_OPERATOR_MODULUS,
+			EXPRESSION_TEST_OPERATOR_MULTIPLY,
+			EXPRESSION_TEST_OPERATOR_NOT_EQUALS,
+			EXPRESSION_TEST_OPERATOR_OR,
+			EXPRESSION_TEST_OPERATOR_PLUS,
+			EXPRESSION_TEST_OPERATOR_SUBTRACT,
+			EXPRESSION_TEST_OPERATOR_XOR,
+		} expression_test_type;
+
+		static const std::string EXPRESSION_TEST_STR[] = {
+			"(call f)", "(call f a (+ b 34) (* c d))", "(postdec a)", "(postinc a)", "(predec a)",
+			"(preinc a)", "(print a)", "(set a (+ 3 4))", "(undef a)", "(begin lst)", "(end lst)",
+			"(pop lst)", "(push lst (+ 3 4))", "(set a false)", "(set a ~false)", "(set a 3.14159)",
+			"(set a ~3.14159)", "(set a b)", "(set a ~b)", "(set a 3)", "(set a ~3)", "(set a \"str\")",
+			"(set a true)", "(set a ~true)", "(* (+ 3 4) (- 54 35))", "(& 3 4)", "(/ 3 4)", "(= 3 4)",
+			"(> 3 4)", "(< 3 4)", "(% 3 4)", "(* 3 4)", "(! 3 4)", "(| 3 4)", "(+ 3 4)", "(- 3 4)", 
+			"(^ 3 4)",
+			};
+
+		#define MAX_EXPRESSION_TEST EXPRESSION_TEST_OPERATOR_XOR
+		#define EXPRESSION_TEST_STRING(_TYPE_)\
+			(((size_t) _TYPE_) > MAX_EXPRESSION_TEST ? UNKNOWN : EXPRESSION_TEST_STR[_TYPE_])
+
 		static parser_test_clear parser_test_0;
 		static parser_test_discover parser_test_1;
 		static parser_test_enumerate_conditional parser_test_2;
 		static parser_test_enumerate_directive parser_test_3;
 		static parser_test_enumerate_expression parser_test_4;
-		static parser_test_enumerate_function_call parser_test_5;
-		static parser_test_enumerate_function_definition parser_test_6;
-		static parser_enumerate_list_operator parser_test_7;
-		static parser_test_enumerate_literal parser_test_8;
-		static parser_test_enumerate_statement parser_test_9;
-		static parser_test_enumerate_switch_statement parser_test_10;
-		static parser_test_get_statement parser_test_11;
-		static parser_test_get_statement_id parser_test_12;
-		static parser_test_get_statement_position parser_test_13;
-		static parser_test_has_next_statement parser_test_14;
-		static parser_test_has_previous_statement parser_test_15;
-		static parser_test_move_next_statement parser_test_16;
-		static parser_test_move_previous_statement parser_test_17;
-		static parser_test_reset parser_test_18;
-		static parser_test_set parser_test_19;
-		static parser_test_size parser_test_20;
+		static parser_test_enumerate_function_definition parser_test_5;
+		static parser_test_get_statement parser_test_6;
+		static parser_test_get_statement_id parser_test_7;
+		static parser_test_get_statement_position parser_test_8;
+		static parser_test_has_next_statement parser_test_9;
+		static parser_test_has_previous_statement parser_test_10;
+		static parser_test_move_next_statement parser_test_11;
+		static parser_test_move_previous_statement parser_test_12;
+		static parser_test_reset parser_test_13;
+		static parser_test_set parser_test_14;
+		static parser_test_size parser_test_15;
 
 
 		void 
@@ -88,11 +171,6 @@ namespace NIMBLE_NS {
 			suite.register_test(parser_test_13);
 			suite.register_test(parser_test_14);
 			suite.register_test(parser_test_15);
-			suite.register_test(parser_test_16);
-			suite.register_test(parser_test_17);
-			suite.register_test(parser_test_18);
-			suite.register_test(parser_test_19);
-			suite.register_test(parser_test_20);
 
 			TRACE_EXIT();
 		}
@@ -186,9 +264,19 @@ exit:
 			UNREFERENCED_PARAMETER(length);
 
 			try {
-				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false);
+				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false), par2(PARSER_TEST_FILE_PATH);
 
-				// TODO: ...
+				par2.discover();
+
+				while(par.has_next_statement()) {
+					par.move_next_statement();
+				}
+
+				if(par2.size() != par.size()) {
+					TRACE_ERROR("%s: %s", m_name.c_str(), TEST_RESULT_STRING(TEST_RESULT_FAILURE).c_str());
+					result = TEST_RESULT_FAILURE;
+					goto exit;
+				}
 
 				result = TEST_RESULT_SUCCESS;
 			} catch(std::runtime_error &exc) {
@@ -199,6 +287,7 @@ exit:
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
+exit:
 			TRACE_EXIT_MESSAGE("[%s] %s", TEST_RESULT_STRING(result).c_str(), m_name.c_str());
 			return result;
 		}
@@ -243,6 +332,7 @@ exit:
 			__in size_t length
 			)
 		{
+			size_t type = CONDITIONAL_TEST_IF;
 			test_result result = TEST_RESULT_INCONCLUSIVE;
 
 			TRACE_ENTRY();
@@ -250,9 +340,12 @@ exit:
 			UNREFERENCED_PARAMETER(length);
 
 			try {
-				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false);
 			
-				// TODO: ...
+				for(; type <= MAX_CONDITIONAL_TEST; ++type) {
+					LANGUAGE_NS::parser par(CONDITIONAL_TEST_STRING(type), false);
+					par.discover();
+					par.move_next_statement();
+				}
 
 				result = TEST_RESULT_SUCCESS;
 			} catch(std::runtime_error &exc) {
@@ -307,6 +400,7 @@ exit:
 			__in size_t length
 			)
 		{
+			size_t type = DIRECTIVE_TEST_BREAK;
 			test_result result = TEST_RESULT_INCONCLUSIVE;
 
 			TRACE_ENTRY();
@@ -316,7 +410,11 @@ exit:
 			try {
 				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false);
 			
-				// TODO: ...
+				for(; type <= MAX_DIRECTIVE_TEST; ++type) {
+					LANGUAGE_NS::parser par(DIRECTIVE_TEST_STRING(type), false);
+					par.discover();
+					par.move_next_statement();
+				}
 
 				result = TEST_RESULT_SUCCESS;
 			} catch(std::runtime_error &exc) {
@@ -371,6 +469,7 @@ exit:
 			__in size_t length
 			)
 		{
+			size_t type = EXPRESSION_TEST_FUNCTION_CALL;
 			test_result result = TEST_RESULT_INCONCLUSIVE;
 
 			TRACE_ENTRY();
@@ -380,7 +479,11 @@ exit:
 			try {
 				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false);
 			
-				// TODO: ...
+				for(; type <= MAX_EXPRESSION_TEST; ++type) {
+					LANGUAGE_NS::parser par(EXPRESSION_TEST_STRING(type), false);
+					par.discover();
+					par.move_next_statement();
+				}
 
 				result = TEST_RESULT_SUCCESS;
 			} catch(std::runtime_error &exc) {
@@ -414,70 +517,6 @@ exit:
 
 		void 
 		_parser_test_enumerate_expression::teardown_test(
-			__in uintptr_t context,
-			__in size_t length
-			)
-		{
-			TRACE_ENTRY();
-			UNREFERENCED_PARAMETER(context);
-			UNREFERENCED_PARAMETER(length);
-
-			if(COMPONENT_NS::is_initialized()) {
-				COMPONENT_NS::destroy();
-			}
-
-			TRACE_EXIT();
-		}
-
-		test_result 
-		_parser_test_enumerate_function_call::run_test(
-			__in uintptr_t context,
-			__in size_t length
-			)
-		{
-			test_result result = TEST_RESULT_INCONCLUSIVE;
-
-			TRACE_ENTRY();
-			UNREFERENCED_PARAMETER(context);
-			UNREFERENCED_PARAMETER(length);
-
-			try {
-				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false);
-
-				// TODO: ...
-
-				result = TEST_RESULT_SUCCESS;
-			} catch(std::runtime_error &exc) {
-#ifndef _DEBUG
-				UNREFERENCED_PARAMETER(exc);
-#endif // _DEBUG
-				TRACE_ERROR("%s: %s", m_name.c_str(), exc.what());
-				result = TEST_RESULT_INCONCLUSIVE;
-			}
-
-			TRACE_EXIT_MESSAGE("[%s] %s", TEST_RESULT_STRING(result).c_str(), m_name.c_str());
-			return result;
-		}
-
-		void 
-		_parser_test_enumerate_function_call::setup_test(
-			__in uintptr_t context,
-			__in size_t length
-			)
-		{
-			TRACE_ENTRY();
-			UNREFERENCED_PARAMETER(context);
-			UNREFERENCED_PARAMETER(length);
-
-			if(!COMPONENT_NS::is_initialized()) {
-				COMPONENT_NS::initialize();
-			}
-
-			TRACE_EXIT();
-		}
-
-		void 
-		_parser_test_enumerate_function_call::teardown_test(
 			__in uintptr_t context,
 			__in size_t length
 			)
@@ -542,262 +581,6 @@ exit:
 
 		void 
 		_parser_test_enumerate_function_definition::teardown_test(
-			__in uintptr_t context,
-			__in size_t length
-			)
-		{
-			TRACE_ENTRY();
-			UNREFERENCED_PARAMETER(context);
-			UNREFERENCED_PARAMETER(length);
-
-			if(COMPONENT_NS::is_initialized()) {
-				COMPONENT_NS::destroy();
-			}
-
-			TRACE_EXIT();
-		}
-
-		test_result 
-		_parser_enumerate_list_operator::run_test(
-			__in uintptr_t context,
-			__in size_t length
-			)
-		{
-			test_result result = TEST_RESULT_INCONCLUSIVE;
-
-			TRACE_ENTRY();
-			UNREFERENCED_PARAMETER(context);
-			UNREFERENCED_PARAMETER(length);
-
-			try {
-				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false);
-			
-				// TODO: ...
-
-				result = TEST_RESULT_SUCCESS;
-			} catch(std::runtime_error &exc) {
-#ifndef _DEBUG
-				UNREFERENCED_PARAMETER(exc);
-#endif // _DEBUG
-				TRACE_ERROR("%s: %s", m_name.c_str(), exc.what());
-				result = TEST_RESULT_INCONCLUSIVE;
-			}
-
-			TRACE_EXIT_MESSAGE("[%s] %s", TEST_RESULT_STRING(result).c_str(), m_name.c_str());
-			return result;
-		}
-
-		void 
-		_parser_enumerate_list_operator::setup_test(
-			__in uintptr_t context,
-			__in size_t length
-			)
-		{
-			TRACE_ENTRY();
-			UNREFERENCED_PARAMETER(context);
-			UNREFERENCED_PARAMETER(length);
-
-			if(!COMPONENT_NS::is_initialized()) {
-				COMPONENT_NS::initialize();
-			}
-
-			TRACE_EXIT();
-		}
-
-		void 
-		_parser_enumerate_list_operator::teardown_test(
-			__in uintptr_t context,
-			__in size_t length
-			)
-		{
-			TRACE_ENTRY();
-			UNREFERENCED_PARAMETER(context);
-			UNREFERENCED_PARAMETER(length);
-
-			if(COMPONENT_NS::is_initialized()) {
-				COMPONENT_NS::destroy();
-			}
-
-			TRACE_EXIT();
-		}
-
-		test_result 
-		_parser_test_enumerate_literal::run_test(
-			__in uintptr_t context,
-			__in size_t length
-			)
-		{
-			test_result result = TEST_RESULT_INCONCLUSIVE;
-
-			TRACE_ENTRY();
-			UNREFERENCED_PARAMETER(context);
-			UNREFERENCED_PARAMETER(length);
-
-			try {
-				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false);
-			
-				// TODO: ...
-
-				result = TEST_RESULT_SUCCESS;
-			} catch(std::runtime_error &exc) {
-#ifndef _DEBUG
-				UNREFERENCED_PARAMETER(exc);
-#endif // _DEBUG
-				TRACE_ERROR("%s: %s", m_name.c_str(), exc.what());
-				result = TEST_RESULT_INCONCLUSIVE;
-			}
-
-			TRACE_EXIT_MESSAGE("[%s] %s", TEST_RESULT_STRING(result).c_str(), m_name.c_str());
-			return result;
-		}
-
-		void 
-		_parser_test_enumerate_literal::setup_test(
-			__in uintptr_t context,
-			__in size_t length
-			)
-		{
-			TRACE_ENTRY();
-			UNREFERENCED_PARAMETER(context);
-			UNREFERENCED_PARAMETER(length);
-
-			if(!COMPONENT_NS::is_initialized()) {
-				COMPONENT_NS::initialize();
-			}
-
-			TRACE_EXIT();
-		}
-
-		void 
-		_parser_test_enumerate_literal::teardown_test(
-			__in uintptr_t context,
-			__in size_t length
-			)
-		{
-			TRACE_ENTRY();
-			UNREFERENCED_PARAMETER(context);
-			UNREFERENCED_PARAMETER(length);
-
-			if(COMPONENT_NS::is_initialized()) {
-				COMPONENT_NS::destroy();
-			}
-
-			TRACE_EXIT();
-		}
-
-		test_result 
-		_parser_test_enumerate_statement::run_test(
-			__in uintptr_t context,
-			__in size_t length
-			)
-		{
-			test_result result = TEST_RESULT_INCONCLUSIVE;
-
-			TRACE_ENTRY();
-			UNREFERENCED_PARAMETER(context);
-			UNREFERENCED_PARAMETER(length);
-
-			try {
-				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false);
-			
-				// TODO: ...
-
-				result = TEST_RESULT_SUCCESS;
-			} catch(std::runtime_error &exc) {
-#ifndef _DEBUG
-				UNREFERENCED_PARAMETER(exc);
-#endif // _DEBUG
-				TRACE_ERROR("%s: %s", m_name.c_str(), exc.what());
-				result = TEST_RESULT_INCONCLUSIVE;
-			}
-
-			TRACE_EXIT_MESSAGE("[%s] %s", TEST_RESULT_STRING(result).c_str(), m_name.c_str());
-			return result;
-		}
-
-		void 
-		_parser_test_enumerate_statement::setup_test(
-			__in uintptr_t context,
-			__in size_t length
-			)
-		{
-			TRACE_ENTRY();
-			UNREFERENCED_PARAMETER(context);
-			UNREFERENCED_PARAMETER(length);
-
-			if(!COMPONENT_NS::is_initialized()) {
-				COMPONENT_NS::initialize();
-			}
-
-			TRACE_EXIT();
-		}
-
-		void 
-		_parser_test_enumerate_statement::teardown_test(
-			__in uintptr_t context,
-			__in size_t length
-			)
-		{
-			TRACE_ENTRY();
-			UNREFERENCED_PARAMETER(context);
-			UNREFERENCED_PARAMETER(length);
-
-			if(COMPONENT_NS::is_initialized()) {
-				COMPONENT_NS::destroy();
-			}
-
-			TRACE_EXIT();
-		}
-
-		test_result 
-		_parser_test_enumerate_switch_statement::run_test(
-			__in uintptr_t context,
-			__in size_t length
-			)
-		{
-			test_result result = TEST_RESULT_INCONCLUSIVE;
-
-			TRACE_ENTRY();
-			UNREFERENCED_PARAMETER(context);
-			UNREFERENCED_PARAMETER(length);
-
-			try {
-				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false);
-			
-				// TODO: ...
-
-				result = TEST_RESULT_SUCCESS;
-			} catch(std::runtime_error &exc) {
-#ifndef _DEBUG
-				UNREFERENCED_PARAMETER(exc);
-#endif // _DEBUG
-				TRACE_ERROR("%s: %s", m_name.c_str(), exc.what());
-				result = TEST_RESULT_INCONCLUSIVE;
-			}
-
-			TRACE_EXIT_MESSAGE("[%s] %s", TEST_RESULT_STRING(result).c_str(), m_name.c_str());
-			return result;
-		}
-
-		void 
-		_parser_test_enumerate_switch_statement::setup_test(
-			__in uintptr_t context,
-			__in size_t length
-			)
-		{
-			TRACE_ENTRY();
-			UNREFERENCED_PARAMETER(context);
-			UNREFERENCED_PARAMETER(length);
-
-			if(!COMPONENT_NS::is_initialized()) {
-				COMPONENT_NS::initialize();
-			}
-
-			TRACE_EXIT();
-		}
-
-		void 
-		_parser_test_enumerate_switch_statement::teardown_test(
 			__in uintptr_t context,
 			__in size_t length
 			)

@@ -910,6 +910,10 @@ namespace NIMBLE_NS {
 					enumerate_function_call(result, child_node);
 				} else if(IS_TOKEN_TYPE(current_tok, TOKEN_TYPE_FUNCTION_DEFINITION)) {
 					enumerate_function_definition(result, child_node);
+				} else if(IS_TOKEN_TYPE(current_tok, TOKEN_TYPE_LIST_OPERATOR)) {
+					enumerate_list_operator(result, child_node);
+				} else if(IS_TOKEN_TYPE(current_tok, TOKEN_TYPE_OPERATOR)) {
+					enumerate_operation(result, child_node);
 				} else {
 					enumerate_statement(result, child_node);
 				}
@@ -948,7 +952,7 @@ namespace NIMBLE_NS {
 
 			result = add_control_token(node, parent_id, TOKEN_TYPE_SWITCH_STATEMENT);
 			INITIALIZE_TOKEN_NODE(child_node);
-			enumerate_expression(result, child_node);
+			enumerate_literal(result, child_node);
 			INITIALIZE_TOKEN_NODE(child_node);
 			enumerate_statement(result, child_node);
 

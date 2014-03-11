@@ -28,31 +28,37 @@ namespace NIMBLE_NS {
 	
 		typedef enum {
 			LEXER_EXCEPTION_EXPECTING_IDENTIFIER = 0,
+			LEXER_EXCEPTION_EXPECTING_LITERAL,
 			LEXER_EXCEPTION_EXPECTING_NEXT_CHARACTER,
 			LEXER_EXCEPTION_EXPECTING_PREVIOUS_CHARACTER,
 			LEXER_EXCEPTION_EXPECTING_STRING,
 			LEXER_EXCEPTION_EXPECTING_SYMBOL,
 			LEXER_EXCEPTION_EXPECTING_TOKEN,
+			LEXER_EXCEPTION_EXPECTING_UNARY,
 			LEXER_EXCEPTION_EXPECTING_VALUE,
 			LEXER_EXCEPTION_INVALID_TOKEN_POSITION,
 			LEXER_EXCEPTION_NO_NEXT_TOKEN,
 			LEXER_EXCEPTION_NO_PREVIOUS_TOKEN,
 			LEXER_EXCEPTION_UNTERMINATED_STRING,
+			LEXER_EXCEPTION_UNTERMINATED_UNARY,
 			LEXER_EXCEPTION_UNTERMINATED_VALUE,
 		} lexer_exception_type;
 
 		static const std::string LEXER_EXCEPTION_STR[] = {
-			"Expecting identifier type",
+			"Expecting identifier",
+			"Expecting literal",
 			"Expecting next character",
 			"Expecting previous character",
-			"Expecting string literal type",
-			"Expecting symbol type",
-			"Expecting token type",
-			"Expecting value literal type",
+			"Expecting string literal",
+			"Expecting symbol",
+			"Expecting token",
+			"Expecting unary operator",
+			"Expecting value literal",
 			"Invalid token position",
 			"No next token",
 			"No previous token",
 			"Unterminated string literal",
+			"Unterminated unary operator",
 			"Unterminated value literal",
 			};
 

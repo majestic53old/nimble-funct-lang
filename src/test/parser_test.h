@@ -32,12 +32,7 @@ namespace NIMBLE_NS {
 			PARSER_TEST_ENUMERATE_CONDITIONAL,
 			PARSER_TEST_ENUMERATE_DIRECTIVE,
 			PARSER_TEST_ENUMERATE_EXPRESSION,
-			PARSER_TEST_ENUMERATE_FUNCTION_CALL,
 			PARSER_TEST_ENUMERATE_FUNCTION_DEFINITION,
-			PARSER_TEST_ENUMERATE_LIST_OPERATOR,
-			PARSER_TEST_ENUMERATE_LITERAL,
-			PARSER_TEST_ENUMERATE_STATEMENT,
-			PARSER_TEST_ENUMERATE_SWITCH_STATEMENT,
 			PARSER_TEST_GET_STATEMENT,
 			PARSER_TEST_GET_STATEMENT_ID,
 			PARSER_TEST_GET_STATEMENT_POSITION,
@@ -53,15 +48,10 @@ namespace NIMBLE_NS {
 		static const std::string PARSER_TEST_STR[] = {
 			"[Parser] Clear",
 			"[Parser] Discover",
-			"[Parser] Conditional",
-			"[Parser] Directive",
-			"[Parser] Expression",
-			"[Parser] Function call",
-			"[Parser] Function definition",
-			"[Parser] List operation",
-			"[Parser] Literal",
-			"[Parser] Statement",
-			"[Parser] Switch statement",
+			"[Parser] Enumerate conditional",
+			"[Parser] Enumerate directive",
+			"[Parser] Enumerate expression",
+			"[Parser] Enumerate function definition",
 			"[Parser] Get statement",
 			"[Parser] Get statement Id",
 			"[Parser] Get statement position",
@@ -227,35 +217,6 @@ namespace NIMBLE_NS {
 
 		} parser_test_enumerate_expression;
 
-		typedef class _parser_test_enumerate_function_call :
-				public test {
-		
-			public:
-
-				_parser_test_enumerate_function_call(void) :
-					test(PARSER_TEST_STRING(PARSER_TEST_ENUMERATE_FUNCTION_CALL)) {}
-
-				virtual ~_parser_test_enumerate_function_call(void) {}
-
-			protected:
-
-				virtual test_result run_test(
-					__in uintptr_t context = NULL,
-					__in size_t length = 0
-					);
-
-				virtual void setup_test(
-					__in uintptr_t context = NULL,
-					__in size_t length = 0
-					);
-
-				virtual void teardown_test(
-					__in uintptr_t context = NULL,
-					__in size_t length = 0
-					);
-
-		} parser_test_enumerate_function_call;
-
 		typedef class _parser_test_enumerate_function_definition :
 				public test {
 		
@@ -284,122 +245,6 @@ namespace NIMBLE_NS {
 					);
 
 		} parser_test_enumerate_function_definition;
-
-		typedef class _parser_enumerate_list_operator :
-				public test {
-		
-			public:
-
-				_parser_enumerate_list_operator(void) :
-					test(PARSER_TEST_STRING(PARSER_TEST_ENUMERATE_LIST_OPERATOR)) {}
-
-				virtual ~_parser_enumerate_list_operator(void) {}
-
-			protected:
-
-				virtual test_result run_test(
-					__in uintptr_t context = NULL,
-					__in size_t length = 0
-					);
-
-				virtual void setup_test(
-					__in uintptr_t context = NULL,
-					__in size_t length = 0
-					);
-
-				virtual void teardown_test(
-					__in uintptr_t context = NULL,
-					__in size_t length = 0
-					);
-
-		} parser_enumerate_list_operator;
-
-		typedef class _parser_test_enumerate_literal :
-				public test {
-		
-			public:
-
-				_parser_test_enumerate_literal(void) :
-					test(PARSER_TEST_STRING(PARSER_TEST_ENUMERATE_LITERAL)) {}
-
-				virtual ~_parser_test_enumerate_literal(void) {}
-
-			protected:
-
-				virtual test_result run_test(
-					__in uintptr_t context = NULL,
-					__in size_t length = 0
-					);
-
-				virtual void setup_test(
-					__in uintptr_t context = NULL,
-					__in size_t length = 0
-					);
-
-				virtual void teardown_test(
-					__in uintptr_t context = NULL,
-					__in size_t length = 0
-					);
-
-		} parser_test_enumerate_literal;
-
-		typedef class _parser_test_enumerate_statement :
-				public test {
-		
-			public:
-
-				_parser_test_enumerate_statement(void) :
-					test(PARSER_TEST_STRING(PARSER_TEST_ENUMERATE_STATEMENT)) {}
-
-				virtual ~_parser_test_enumerate_statement(void) {}
-
-			protected:
-
-				virtual test_result run_test(
-					__in uintptr_t context = NULL,
-					__in size_t length = 0
-					);
-
-				virtual void setup_test(
-					__in uintptr_t context = NULL,
-					__in size_t length = 0
-					);
-
-				virtual void teardown_test(
-					__in uintptr_t context = NULL,
-					__in size_t length = 0
-					);
-
-		} parser_test_enumerate_statement;
-
-		typedef class _parser_test_enumerate_switch_statement :
-				public test {
-		
-			public:
-
-				_parser_test_enumerate_switch_statement(void) :
-					test(PARSER_TEST_STRING(PARSER_TEST_ENUMERATE_SWITCH_STATEMENT)) {}
-
-				virtual ~_parser_test_enumerate_switch_statement(void) {}
-
-			protected:
-
-				virtual test_result run_test(
-					__in uintptr_t context = NULL,
-					__in size_t length = 0
-					);
-
-				virtual void setup_test(
-					__in uintptr_t context = NULL,
-					__in size_t length = 0
-					);
-
-				virtual void teardown_test(
-					__in uintptr_t context = NULL,
-					__in size_t length = 0
-					);
-
-		} parser_test_enumerate_switch_statement;
 
 		typedef class _parser_test_get_statement :
 				public test {

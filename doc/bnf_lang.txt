@@ -51,7 +51,9 @@ list_operator ::= begin <identifier>
 	| pop <identifier> 
 	| push <identifier> <expression>
 
-literal ::= <constant> | <identifier> | <string> | <value>
+literal ::= <constant> | <identifier> | <string> | <value> | <literal_negative>
+	
+literal_negative ::= [~]? <constant> | [~]? <identifier> | [~]? <value>
 	
 operation ::= <operator> <expression_list>
 	
@@ -69,11 +71,11 @@ statement_list ::= ( <function_call> ) <statement_list>
 	
 string ::= ".*"
 	
-switch_statement ::= <expression> <statement>
+switch_statement ::= <literal> <statement>
 
 switch_statement_list ::= <switch_statement> <switch_statement_list> else <statement>
 	| <switch_statement> <switch_statement_list> 
 	| <switch_statement> else <statement>
 	| <switch_statement>
 
-value ::= [~]?[0-9]+[\.[0-9]+]?
+value ::= [0-9]+[\.[0-9]+]?

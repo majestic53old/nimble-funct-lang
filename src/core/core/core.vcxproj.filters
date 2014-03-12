@@ -72,6 +72,12 @@
     <ClInclude Include="..\component_type.h">
       <Filter>component</Filter>
     </ClInclude>
+    <ClInclude Include="..\code_generator.h">
+      <Filter>language</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code_generator_type.h">
+      <Filter>language</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\unique_id.cpp">
@@ -97,6 +103,9 @@
     </ClCompile>
     <ClCompile Include="..\component.cpp">
       <Filter>component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code_generator.cpp">
+      <Filter>language</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

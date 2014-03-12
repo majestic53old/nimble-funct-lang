@@ -148,6 +148,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\code_generator.h" />
+    <ClInclude Include="..\code_generator_type.h" />
     <ClInclude Include="..\component.h" />
     <ClInclude Include="..\component_type.h" />
     <ClInclude Include="..\exception.h" />
@@ -170,6 +172,7 @@
     <ClInclude Include="..\version.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\code_generator.cpp" />
     <ClCompile Include="..\component.cpp" />
     <ClCompile Include="..\lexer.cpp" />
     <ClCompile Include="..\lexer_base.cpp" />

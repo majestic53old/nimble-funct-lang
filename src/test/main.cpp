@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "code_generator.h"
 #include "component.h"
 #include "component_test.h"
 #include "lexer_test.h"
@@ -36,20 +37,21 @@ typedef enum {
 	LAYER_LEXER = 0,
 	LAYER_LEXER_BASE,
 	LAYER_PARSER,
+	LAYER_CODE_GENERATOR,
 } layer_type;
 
 static const std::string LAYER_TYPE_STR[] = {
-	"LEXER", "LEXER_BASE", "PARSER",
+	"LEXER", "LEXER_BASE", "PARSER", "CODE_GENERATOR",
 	};
 
-#define MAX_LAYER_TYPE LAYER_PARSER
+#define MAX_LAYER_TYPE LAYER_CODE_GENERATOR
 #define LAYER_TYPE_STRING(_TYPE_)\
 	(((size_t) (_TYPE_)) > (size_t) MAX_LAYER_TYPE ? UNKNOWN : LAYER_TYPE_STR[_TYPE_])
 
 /*
  * Test configuration
  */
-#define UNIT_TEST_MODE
+//#define UNIT_TEST_MODE
 #ifdef UNIT_TEST_MODE
 #define SHOW_ONLY_FAILURES_MODE true
 #define VERBOSE_MODE true
@@ -64,9 +66,9 @@ static const std::string LAYER_TYPE_STR[] = {
 bool 
 allocate_layer(
 	__in const layer_type &layer,
+	__out LANGUAGE_NS::lexer_base_ptr &lex_base,
 	__out LANGUAGE_NS::lexer_ptr &lex,
 	__out LANGUAGE_NS::parser_ptr &par,
-	__out LANGUAGE_NS::lexer_base_ptr &lex_base,
 	__in const std::string &input = std::string(),
 	__in bool is_file = false
 	)
@@ -96,6 +98,11 @@ allocate_layer(
 			if(!lex_base || !par) {
 				result = false;
 			}
+			break;
+		case LAYER_CODE_GENERATOR:
+
+			// TODO: ...
+
 			break;
 		default:
 			result = false;
@@ -144,6 +151,11 @@ deallocate_layer(
 					result = false;
 				}
 				break;
+			case LAYER_CODE_GENERATOR:
+
+				// TODO: ...
+
+				break;
 		}
 
 		lex_base = NULL;
@@ -168,7 +180,7 @@ run_layer(
 
 	std::cout << "[" << LAYER_TYPE_STRING(layer) << " LAYER]" << std::endl << "---" << std::endl;
 
-	result = allocate_layer(layer, lex, par, lex_base, input, is_file);
+	result = allocate_layer(layer, lex_base, lex, par, input, is_file);
 
 	if(result) {
 		running = true;
@@ -199,6 +211,11 @@ run_layer(
 					if(running) {
 						par->move_next_statement();
 					}
+					break;
+				case LAYER_CODE_GENERATOR:
+
+					// TODO: ...
+
 					break;
 				default:
 					running = false;
@@ -237,6 +254,11 @@ run_layer(
 						par->move_previous_statement();
 						std::cout << par->to_string(verbose) << std::endl;
 					}
+					break;
+				case LAYER_CODE_GENERATOR:
+
+					// TODO: ...
+
 					break;
 				default:
 					running = false;

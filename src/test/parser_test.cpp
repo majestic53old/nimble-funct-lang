@@ -23,6 +23,7 @@
 #include "test.h"
 #include "test_type.h"
 #include "token.h"
+#include "token_tree.h"
 #include "trace.h"
 #include "unique_id.h"
 
@@ -129,6 +130,22 @@ namespace NIMBLE_NS {
 		#define MAX_EXPRESSION_TEST EXPRESSION_TEST_OPERATOR_XOR
 		#define EXPRESSION_TEST_STRING(_TYPE_)\
 			(((size_t) _TYPE_) > MAX_EXPRESSION_TEST ? UNKNOWN : EXPRESSION_TEST_STR[_TYPE_])
+
+		typedef enum {
+			FUNCTION_DEFINITION_TEST_NO_PARAMETERS,
+			FUNCTION_DEFINITION_TEST_PARAMETERS_RETURN_SET,
+			FUNCTION_DEFINITION_TEST_PARAMETERS_RETURN_UNSET,
+		} function_definition_test_type;
+
+		static const std::string FUNCTION_DEFINITION_TEST_STR[] = {
+			"(def (f) ( return ))",
+			"(def (f) a b ( result true ) ( return ))",
+			"(def (f) a b ( result ) ( return ))",
+			};
+
+		#define MAX_FUNCTION_DEFINITION_TEST FUNCTION_DEFINITION_TEST_PARAMETERS_RETURN_UNSET
+		#define FUNCTION_DEFINITION_TEST_STRING(_TYPE_)\
+			(((size_t) _TYPE_) > MAX_FUNCTION_DEFINITION_TEST ? UNKNOWN : FUNCTION_DEFINITION_TEST_STR[_TYPE_])
 
 		static parser_test_clear parser_test_0;
 		static parser_test_discover parser_test_1;
@@ -408,7 +425,6 @@ exit:
 			UNREFERENCED_PARAMETER(length);
 
 			try {
-				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false);
 			
 				for(; type <= MAX_DIRECTIVE_TEST; ++type) {
 					LANGUAGE_NS::parser par(DIRECTIVE_TEST_STRING(type), false);
@@ -538,6 +554,7 @@ exit:
 			__in size_t length
 			)
 		{
+			size_t type = FUNCTION_DEFINITION_TEST_NO_PARAMETERS;
 			test_result result = TEST_RESULT_INCONCLUSIVE;
 
 			TRACE_ENTRY();
@@ -547,7 +564,11 @@ exit:
 			try {
 				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false);
 			
-				// TODO: ...
+				for(; type <= MAX_FUNCTION_DEFINITION_TEST; ++type) {
+					LANGUAGE_NS::parser par(FUNCTION_DEFINITION_TEST_STRING(type), false);
+					par.discover();
+					par.move_next_statement();
+				}
 
 				result = TEST_RESULT_SUCCESS;
 			} catch(std::runtime_error &exc) {
@@ -602,6 +623,7 @@ exit:
 			__in size_t length
 			)
 		{
+			size_t position = 0;
 			test_result result = TEST_RESULT_INCONCLUSIVE;
 
 			TRACE_ENTRY();
@@ -610,8 +632,17 @@ exit:
 
 			try {
 				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false);
-			
-				// TODO: ...
+				
+				while(par.has_next_statement()) {
+					
+					if(par.get_statement() != par.get_statement(position++)) {
+						TRACE_ERROR("%s: %s", m_name.c_str(), TEST_RESULT_STRING(TEST_RESULT_FAILURE).c_str());
+						result = TEST_RESULT_FAILURE;
+						goto exit;
+					}
+
+					par.move_next_statement();
+				}
 
 				result = TEST_RESULT_SUCCESS;
 			} catch(std::runtime_error &exc) {
@@ -622,6 +653,7 @@ exit:
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
+		exit:
 			TRACE_EXIT_MESSAGE("[%s] %s", TEST_RESULT_STRING(result).c_str(), m_name.c_str());
 			return result;
 		}
@@ -675,7 +707,16 @@ exit:
 			try {
 				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false);
 			
-				// TODO: ...
+				while(par.has_next_statement()) {
+
+					if(!COMPONENT_NS::TOKEN_TREE_NS::is_registered(par.get_statement_id())) {
+						TRACE_ERROR("%s: %s", m_name.c_str(), TEST_RESULT_STRING(TEST_RESULT_FAILURE).c_str());
+						result = TEST_RESULT_FAILURE;
+						goto exit;
+					}
+
+					par.move_next_statement();
+				}
 
 				result = TEST_RESULT_SUCCESS;
 			} catch(std::runtime_error &exc) {
@@ -686,6 +727,7 @@ exit:
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
+		exit:
 			TRACE_EXIT_MESSAGE("[%s] %s", TEST_RESULT_STRING(result).c_str(), m_name.c_str());
 			return result;
 		}
@@ -730,6 +772,7 @@ exit:
 			__in size_t length
 			)
 		{
+			size_t position = 0;
 			test_result result = TEST_RESULT_INCONCLUSIVE;
 
 			TRACE_ENTRY();
@@ -739,7 +782,16 @@ exit:
 			try {
 				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false);
 			
-				// TODO: ...
+				while(par.has_next_statement()) {
+					
+					if(par.get_statement_position() != position++) {
+						TRACE_ERROR("%s: %s", m_name.c_str(), TEST_RESULT_STRING(TEST_RESULT_FAILURE).c_str());
+						result = TEST_RESULT_FAILURE;
+						goto exit;
+					}
+
+					par.move_next_statement();
+				}
 
 				result = TEST_RESULT_SUCCESS;
 			} catch(std::runtime_error &exc) {
@@ -750,6 +802,7 @@ exit:
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
+		exit:
 			TRACE_EXIT_MESSAGE("[%s] %s", TEST_RESULT_STRING(result).c_str(), m_name.c_str());
 			return result;
 		}
@@ -803,7 +856,23 @@ exit:
 			try {
 				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false);
 			
-				// TODO: ...
+				while(par.has_next_statement()) {
+					par.move_next_statement();
+				}
+
+				if(par.has_next_statement()) {
+					TRACE_ERROR("%s: %s", m_name.c_str(), TEST_RESULT_STRING(TEST_RESULT_FAILURE).c_str());
+					result = TEST_RESULT_FAILURE;
+					goto exit;
+				}
+
+				par.reset();
+
+				if(!par.has_next_statement()) {
+					TRACE_ERROR("%s: %s", m_name.c_str(), TEST_RESULT_STRING(TEST_RESULT_FAILURE).c_str());
+					result = TEST_RESULT_FAILURE;
+					goto exit;
+				}
 
 				result = TEST_RESULT_SUCCESS;
 			} catch(std::runtime_error &exc) {
@@ -814,6 +883,7 @@ exit:
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
+		exit:
 			TRACE_EXIT_MESSAGE("[%s] %s", TEST_RESULT_STRING(result).c_str(), m_name.c_str());
 			return result;
 		}
@@ -867,7 +937,31 @@ exit:
 			try {
 				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false);
 			
-				// TODO: ...
+				if(par.has_previous_statement()) {
+					TRACE_ERROR("%s: %s", m_name.c_str(), TEST_RESULT_STRING(TEST_RESULT_FAILURE).c_str());
+					result = TEST_RESULT_FAILURE;
+					goto exit;
+				}
+
+				while(par.has_next_statement()) {
+					par.move_next_statement();
+				}
+
+				if(!par.has_previous_statement()) {
+					TRACE_ERROR("%s: %s", m_name.c_str(), TEST_RESULT_STRING(TEST_RESULT_FAILURE).c_str());
+					result = TEST_RESULT_FAILURE;
+					goto exit;
+				}
+
+				while(par.has_previous_statement()) {
+					par.move_previous_statement();	
+				}
+
+				if(par.has_previous_statement()) {
+					TRACE_ERROR("%s: %s", m_name.c_str(), TEST_RESULT_STRING(TEST_RESULT_FAILURE).c_str());
+					result = TEST_RESULT_FAILURE;
+					goto exit;
+				}
 
 				result = TEST_RESULT_SUCCESS;
 			} catch(std::runtime_error &exc) {
@@ -878,6 +972,7 @@ exit:
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
+		exit:
 			TRACE_EXIT_MESSAGE("[%s] %s", TEST_RESULT_STRING(result).c_str(), m_name.c_str());
 			return result;
 		}
@@ -931,7 +1026,23 @@ exit:
 			try {
 				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false);
 			
-				// TODO: ...
+				try {
+
+					while(par.has_next_statement()) {
+						par.move_next_statement();
+					}
+				} catch(...) {
+					TRACE_ERROR("%s: %s", m_name.c_str(), TEST_RESULT_STRING(TEST_RESULT_FAILURE).c_str());
+					result = TEST_RESULT_FAILURE;
+					goto exit;
+				}
+
+				try {
+					par.move_next_statement();
+					TRACE_ERROR("%s: %s", m_name.c_str(), TEST_RESULT_STRING(TEST_RESULT_FAILURE).c_str());
+					result = TEST_RESULT_FAILURE;
+					goto exit;
+				} catch(...) {}
 
 				result = TEST_RESULT_SUCCESS;
 			} catch(std::runtime_error &exc) {
@@ -942,6 +1053,7 @@ exit:
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
+		exit:
 			TRACE_EXIT_MESSAGE("[%s] %s", TEST_RESULT_STRING(result).c_str(), m_name.c_str());
 			return result;
 		}
@@ -995,7 +1107,27 @@ exit:
 			try {
 				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false);
 			
-				// TODO: ...
+				try {
+					par.move_previous_statement();
+					TRACE_ERROR("%s: %s", m_name.c_str(), TEST_RESULT_STRING(TEST_RESULT_FAILURE).c_str());
+					result = TEST_RESULT_FAILURE;
+					goto exit;
+				} catch(...) {}
+
+				while(par.has_next_statement()) {
+					par.move_next_statement();
+				}
+
+				try {
+					
+					if(par.has_previous_statement()) {
+						par.move_previous_statement();
+					}
+				} catch(...) {
+					TRACE_ERROR("%s: %s", m_name.c_str(), TEST_RESULT_STRING(TEST_RESULT_FAILURE).c_str());
+					result = TEST_RESULT_FAILURE;
+					goto exit;
+				}
 
 				result = TEST_RESULT_SUCCESS;
 			} catch(std::runtime_error &exc) {
@@ -1006,6 +1138,7 @@ exit:
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
+		exit:
 			TRACE_EXIT_MESSAGE("[%s] %s", TEST_RESULT_STRING(result).c_str(), m_name.c_str());
 			return result;
 		}
@@ -1059,7 +1192,14 @@ exit:
 			try {
 				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false);
 			
-				// TODO: ...
+				par.move_next_statement();
+				par.reset();
+
+				if(par.get_statement_position()) {
+					TRACE_ERROR("%s: %s", m_name.c_str(), TEST_RESULT_STRING(TEST_RESULT_FAILURE).c_str());
+					result = TEST_RESULT_FAILURE;
+					goto exit;
+				}
 
 				result = TEST_RESULT_SUCCESS;
 			} catch(std::runtime_error &exc) {
@@ -1070,6 +1210,7 @@ exit:
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
+		exit:
 			TRACE_EXIT_MESSAGE("[%s] %s", TEST_RESULT_STRING(result).c_str(), m_name.c_str());
 			return result;
 		}
@@ -1121,9 +1262,40 @@ exit:
 			UNREFERENCED_PARAMETER(length);
 
 			try {
-				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false);
-			
-				// TODO: ...
+				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false), par2 = par,
+					par3 = LANGUAGE_NS::parser(PARSER_TEST_FILE_PATH);
+
+				par.discover();
+				par2.discover();
+				par3.discover();
+
+				while(par.has_next_statement()) {
+					
+					if(COMPONENT_NS::TOKEN_NS::get_token(par.get_statement().id) 
+							!= COMPONENT_NS::TOKEN_NS::get_token(par2.get_statement().id)) {
+						TRACE_ERROR("%s: %s", m_name.c_str(), TEST_RESULT_STRING(TEST_RESULT_FAILURE).c_str());
+						result = TEST_RESULT_FAILURE;
+						goto exit;
+					}
+
+					if(COMPONENT_NS::TOKEN_NS::get_token(par.get_statement().id) 
+							!= COMPONENT_NS::TOKEN_NS::get_token(par3.get_statement().id)) {
+						TRACE_ERROR("%s: %s", m_name.c_str(), TEST_RESULT_STRING(TEST_RESULT_FAILURE).c_str());
+						result = TEST_RESULT_FAILURE;
+						goto exit;
+					}
+
+					par.move_next_statement();
+
+					try {
+						par2.move_next_statement();
+						par3.move_next_statement();
+					} catch(...) {
+						TRACE_ERROR("%s: %s", m_name.c_str(), TEST_RESULT_STRING(TEST_RESULT_FAILURE).c_str());
+						result = TEST_RESULT_FAILURE;
+						goto exit;
+					}
+				}
 
 				result = TEST_RESULT_SUCCESS;
 			} catch(std::runtime_error &exc) {
@@ -1134,6 +1306,7 @@ exit:
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
+		exit:
 			TRACE_EXIT_MESSAGE("[%s] %s", TEST_RESULT_STRING(result).c_str(), m_name.c_str());
 			return result;
 		}
@@ -1187,7 +1360,21 @@ exit:
 			try {
 				LANGUAGE_NS::parser par(PARSER_TEST_INPUT, false);
 			
-				// TODO: ...
+				par.discover();
+
+				if(!par.size()) {
+					TRACE_ERROR("%s: %s", m_name.c_str(), TEST_RESULT_STRING(TEST_RESULT_FAILURE).c_str());
+					result = TEST_RESULT_FAILURE;
+					goto exit;
+				}
+
+				par.clear();
+
+				if(par.size()) {
+					TRACE_ERROR("%s: %s", m_name.c_str(), TEST_RESULT_STRING(TEST_RESULT_FAILURE).c_str());
+					result = TEST_RESULT_FAILURE;
+					goto exit;
+				}
 
 				result = TEST_RESULT_SUCCESS;
 			} catch(std::runtime_error &exc) {
@@ -1198,6 +1385,7 @@ exit:
 				result = TEST_RESULT_INCONCLUSIVE;
 			}
 
+		exit:
 			TRACE_EXIT_MESSAGE("[%s] %s", TEST_RESULT_STRING(result).c_str(), m_name.c_str());
 			return result;
 		}
